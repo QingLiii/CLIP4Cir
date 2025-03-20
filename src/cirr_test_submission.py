@@ -218,6 +218,6 @@ def main():
 
     generate_cirr_test_submissions(combining_function, args.submission_name, clip_model, preprocess)
 
-
+#用于生成测试集预测结果
 if __name__ == '__main__':
     main()

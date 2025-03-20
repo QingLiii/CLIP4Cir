@@ -418,7 +418,7 @@ def combiner_training_cirr(projection_dim: int, hidden_dim: int, num_epochs: int
                     if not save_best:
                         save_model(f'combiner_{epoch}', epoch, combiner, training_path)
 
-
+#用于训练 Combiner 网络
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument("--dataset", type=str, required=True, help="should be either 'CIRR' or 'fashionIQ'")

@@ -415,7 +415,7 @@ def clip_finetune_cirr(num_epochs: int, clip_model_name: str, learning_rate: flo
                     if not save_best:
                         save_model(f'tuned_clip_{epoch}', epoch, clip_model, training_path)
 
-
+#用于微调 CLIP 模型
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument("--dataset", type=str, required=True, help="should be either 'CIRR' or 'fashionIQ'")
