@@ -1,3 +1,9 @@
+"""
+- 生成测试提交文件 :为CIRR数据集生成符合评估服务器要求的提交文件。
+- 特征提取与组合 :使用CLIP模型提取图像和文本特征,并通过不同的组合函数(如element-wise sum或自定义Combiner)将它们组合起来。
+- 相似度计算与排序 :计算查询与索引图像之间的相似度，并按相似度排序生成预测结果。
+"""
+
 import json
 import multiprocessing
 from argparse import ArgumentParser
@@ -18,11 +24,11 @@ from data_utils import CIRRDataset, targetpad_transform, squarepad_transform, ba
 from combiner import Combiner
 from utils import element_wise_sum, device
 
-
 def generate_cirr_test_submissions(combining_function: callable, file_name: str, clip_model: CLIP,
                                    preprocess: callable):
     """
    Generate and save CIRR test submission files to be submitted to evaluation server
+   生成并保存CIRR测试提交文件,处理数据集,提取特征,生成预测字典,并保存为JSON格式
    :param combining_function: function which takes as input (image_features, text_features) and outputs the combined
                            features
    :param file_name: file_name of the submission
@@ -71,6 +77,7 @@ def generate_cirr_test_dicts(relative_test_dataset: CIRRDataset, clip_model: CLI
         -> Tuple[Dict[str, List[str]], Dict[str, List[str]]]:
     """
     Compute test prediction dicts for CIRR dataset
+    计算CIRR数据集的测试预测字典,返回每个查询的全局Top50和子集Top3预测结guo
     :param relative_test_dataset: CIRR test dataset in relative mode
     :param clip_model: CLIP model
     :param index_features: test index features
@@ -120,6 +127,7 @@ def generate_cirr_test_predictions(clip_model: CLIP, relative_test_dataset: CIRR
         Tuple[torch.tensor, List[str], List[List[str]], List[str]]:
     """
     Compute CIRR predictions on the test set
+    - 在测试集上计算CIRR预测,处理批量数据,提取特征并组合它们,返回预测特征、参考名称、组成员和对ID
     :param clip_model: CLIP model
     :param relative_test_dataset: CIRR test dataset in relative mode
     :param combining_function: function which takes as input (image_features, text_features) and outputs the combined

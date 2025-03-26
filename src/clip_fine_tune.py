@@ -42,7 +42,7 @@ def clip_finetune_fiq(train_dress_types: List[str], val_dress_types: List[str],
     :param kwargs: if you use the `targetpad` transform you should prove `target_ratio` as kwarg
     """
 
-    training_start = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+    training_start = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     training_path: Path = Path(
         base_path / f"models/clip_finetuned_on_fiq_{clip_model_name}_{training_start}")
     training_path.mkdir(exist_ok=False, parents=True)
@@ -118,7 +118,7 @@ def clip_finetune_fiq(train_dress_types: List[str], val_dress_types: List[str],
         [{'params': filter(lambda p: p.requires_grad, clip_model.parameters()), 'lr': learning_rate,
           'betas': (0.9, 0.999), 'eps': 1e-7}])
     crossentropy_criterion = nn.CrossEntropyLoss()
-    scaler = torch.cuda.amp.GradScaler()
+    scaler = torch.amp.GradScaler()
 
     # When save_best == True initialize the best result to zero
     if save_best:
@@ -246,7 +246,7 @@ def clip_finetune_cirr(num_epochs: int, clip_model_name: str, learning_rate: flo
     :param kwargs: if you use the `targetpad` transform you should prove `target_ratio`    :return:
     """
 
-    training_start = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+    training_start = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     training_path: Path = Path(
         base_path / f"models/clip_finetuned_on_cirr_{clip_model_name}_{training_start}")
     training_path.mkdir(exist_ok=False, parents=True)
@@ -309,7 +309,7 @@ def clip_finetune_cirr(num_epochs: int, clip_model_name: str, learning_rate: flo
         [{'params': filter(lambda p: p.requires_grad, clip_model.parameters()), 'lr': learning_rate,
           'betas': (0.9, 0.999), 'eps': 1e-7}])
     crossentropy_criterion = nn.CrossEntropyLoss()
-    scaler = torch.cuda.amp.GradScaler()
+    scaler = torch.amp.GradScaler()
 
     # When save_best == True initialize the best results to zero
     if save_best:

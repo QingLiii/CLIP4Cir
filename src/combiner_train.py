@@ -45,7 +45,7 @@ def combiner_training_fiq(train_dress_types: List[str], val_dress_types: List[st
                 fine-tuned version of clip you should provide `clip_model_path` as kwarg.
     """
 
-    training_start = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+    training_start = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     training_path: Path = Path(
         base_path / f"models/combiner_trained_on_fiq_{clip_model_name}_{training_start}")
     training_path.mkdir(exist_ok=False, parents=True)
@@ -107,7 +107,7 @@ def combiner_training_fiq(train_dress_types: List[str], val_dress_types: List[st
     # Define the optimizer, the loss and the grad scaler
     optimizer = optim.Adam(combiner.parameters(), lr=combiner_lr)
     crossentropy_criterion = nn.CrossEntropyLoss()
-    scaler = torch.cuda.amp.GradScaler()
+    scaler = torch.amp.GradScaler('cuda')
 
     # When save_best == True initialize the best result to zero
     if save_best:
@@ -154,7 +154,7 @@ def combiner_training_fiq(train_dress_types: List[str], val_dress_types: List[st
                         [clip_model.encode_text(mini_batch).float() for mini_batch in text_inputs_list])
 
                 # Compute the logits and the loss
-                with torch.cuda.amp.autocast():
+                with torch.amp.autocast('cuda'):
                     logits = combiner(reference_image_features, text_features, target_image_features)
                     ground_truth = torch.arange(images_in_batch, dtype=torch.long, device=device)
                     loss = crossentropy_criterion(logits, ground_truth)
@@ -248,7 +248,7 @@ def combiner_training_cirr(projection_dim: int, hidden_dim: int, num_epochs: int
                 fine-tuned version of clip you should provide `clip_model_path` as kwarg.
     """
 
-    training_start = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+    training_start = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     training_path: Path = Path(
         base_path / f"models/combiner_trained_on_cirr_{clip_model_name}_{training_start}")
     training_path.mkdir(exist_ok=False, parents=True)
@@ -299,7 +299,7 @@ def combiner_training_cirr(projection_dim: int, hidden_dim: int, num_epochs: int
     # Define the optimizer, the loss and the grad scaler
     optimizer = optim.Adam(combiner.parameters(), lr=combiner_lr)
     crossentropy_criterion = nn.CrossEntropyLoss()
-    scaler = torch.cuda.amp.GradScaler()
+    scaler = torch.amp.GradScaler('cuda')
 
     # When save_best == True initialize the best results to zero
     if save_best:
@@ -344,7 +344,7 @@ def combiner_training_cirr(projection_dim: int, hidden_dim: int, num_epochs: int
                         [clip_model.encode_text(mini_batch).float() for mini_batch in text_inputs_list])
 
                 # Compute the logits and loss
-                with torch.cuda.amp.autocast():
+                with torch.amp.autocast('cuda'):
                     logits = combiner(reference_features, text_features, target_features)
                     ground_truth = torch.arange(images_in_batch, dtype=torch.long, device=device)
                     loss = crossentropy_criterion(logits, ground_truth)

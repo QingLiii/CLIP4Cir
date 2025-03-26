@@ -1,0 +1,12 @@
+{
+    "batch_size": 32,
+    "clip_model_name": "RN50x4",
+    "data_root": "E:/Github/CLIP4Cir/books_set/books_set",
+    "encoder": "both",
+    "learning_rate": 1e-06,
+    "num_epochs": 10,
+    "save_best": true,
+    "save_training": true,
+    "transform": "clip",
+    "validation_frequency": 1
+}
