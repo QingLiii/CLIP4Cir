@@ -124,7 +124,7 @@ def compute_books_val_metrics(val_loader: DataLoader, clip_model, combining_func
         
         reference_images = reference_images.to(device)
         target_images = target_images.to(device)
-        text_inputs = clip.tokenize(captions, context_length=77).to(device)
+        text_inputs = clip.tokenize(captions, context_length=77, truncate=True).to(device)
         
         with torch.no_grad(), torch.cuda.amp.autocast():
             reference_features = clip_model.encode_image(reference_images)

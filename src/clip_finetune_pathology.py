@@ -231,7 +231,7 @@ def clip_finetune_pathology(data_root: str, num_epochs: int, clip_model_name: st
                     
                     reference_images = reference_images.to(device)
                     target_images = target_images.to(device)
-                    text_inputs = clip.tokenize(captions, context_length=77).to(device)
+                    text_inputs = clip.tokenize(captions, context_length=77, truncate=True).to(device)
                     
                     with torch.no_grad(), torch.cuda.amp.autocast():
                         reference_features = clip_model.encode_image(reference_images)

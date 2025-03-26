@@ -153,7 +153,7 @@ def generate_cirr_test_predictions(clip_model: CLIP, relative_test_dataset: CIRR
 
     for batch_pairs_id, batch_reference_names, captions, batch_group_members in tqdm(
             relative_test_loader):  # Load data
-        text_inputs = clip.tokenize(captions, context_length=77).to(device)
+        text_inputs = clip.tokenize(captions, context_length=77, truncate=True).to(device)
         batch_group_members = np.array(batch_group_members).T.tolist()
 
         # Compute the predicted features
